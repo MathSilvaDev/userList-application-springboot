@@ -20,6 +20,7 @@ public class UserRequestDTO {
     @Size(max = 20)
     private String userName;
 
+    @NotBlank
     @Size(min = 8)
     private String password;
 }
