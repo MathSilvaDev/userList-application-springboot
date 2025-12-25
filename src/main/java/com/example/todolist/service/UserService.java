@@ -6,6 +6,7 @@ import com.example.todolist.dto.request.UserRequestDTO;
 import com.example.todolist.dto.response.UserResponseDTO;
 import com.example.todolist.entities.User;
 import com.example.todolist.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,13 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder){
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //GET ALL
@@ -47,7 +52,7 @@ public class UserService {
         User user = new User(
                 dto.getEmail(),
                 dto.getUserName(),
-                dto.getPassword()
+                passwordEncoder.encode(dto.getPassword())
         );
 
         userRepository.save(user);
@@ -58,7 +63,11 @@ public class UserService {
     @Transactional
     public UserResponseDTO updateUserById(UUID id, UserRequestDTO dto){
         User user = getUserById(id);
-        user.update(dto);
+
+        user.setUserName(dto.getUserName());
+        if(dto.getPassword() != null && !dto.getPassword().isBlank()){
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
 
         return toResponseDTO(user);
     }
@@ -75,7 +84,6 @@ public class UserService {
                 user.getId(),
                 user.getEmail(),
                 user.getUserName(),
-                user.getPassword(),
                 user.getCreatedAt()
         );
     }

@@ -40,10 +40,4 @@ public class User {
         this.userName = userName;
         this.password = password;
     }
-
-    public void update(UserRequestDTO dto){
-        this.userName = dto.getUserName();
-        this.password = dto.getPassword();
-    }
-
 }
