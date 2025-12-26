@@ -2,8 +2,8 @@ package com.example.todolist.service;
 
 import com.example.todolist.exception.EmailAlreadyExistsException;
 import com.example.todolist.exception.IdNotFoundException;
-import com.example.todolist.dto.request.UserRequestDTO;
-import com.example.todolist.dto.response.UserResponseDTO;
+import com.example.todolist.dto.request.CreateUserRequest;
+import com.example.todolist.dto.response.UserResponse;
 import com.example.todolist.entities.User;
 import com.example.todolist.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +28,7 @@ public class UserService {
     }
 
     //GET ALL
-    public List<UserResponseDTO> findAllUsers(){
+    public List<UserResponse> findAllUsers(){
         return userRepository.findAll()
                 .stream()
                 .map(this::toResponseDTO)
@@ -36,13 +36,13 @@ public class UserService {
     }
 
     //GET BY ID
-    public UserResponseDTO findUserById(UUID id){
+    public UserResponse findUserById(UUID id){
         User user = getUserById(id);
         return toResponseDTO(user);
     }
 
     //POST
-    public UserResponseDTO createUser(UserRequestDTO dto){
+    public UserResponse createUser(CreateUserRequest dto){
 
         Optional<User> userOpt = userRepository.findUserByEmail(dto.getEmail());
         userOpt.ifPresent((_) -> {
@@ -61,7 +61,7 @@ public class UserService {
 
     //PUT
     @Transactional
-    public UserResponseDTO updateUserById(UUID id, UserRequestDTO dto){
+    public UserResponse updateUserById(UUID id, CreateUserRequest dto){
         User user = getUserById(id);
 
         user.setUserName(dto.getUserName());
@@ -79,11 +79,12 @@ public class UserService {
     }
 
     //METHODS
-    private UserResponseDTO toResponseDTO(User user){
-        return new UserResponseDTO(
+    private UserResponse toResponseDTO(User user){
+        return new UserResponse(
                 user.getId(),
                 user.getEmail(),
                 user.getUserName(),
+                user.getPassword(),
                 user.getCreatedAt()
         );
     }

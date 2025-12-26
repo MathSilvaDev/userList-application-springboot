@@ -10,10 +10,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserResponseDTO {
+public class UserResponse {
 
     private UUID id;
     private String email;
     private String userName;
+    private String password;
     private Instant createdAt;
 }

@@ -1,7 +1,7 @@
 package com.example.todolist.controller;
 
-import com.example.todolist.dto.request.UserRequestDTO;
-import com.example.todolist.dto.response.UserResponseDTO;
+import com.example.todolist.dto.request.CreateUserRequest;
+import com.example.todolist.dto.response.UserResponse;
 import com.example.todolist.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,27 +22,27 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> findAllUsers(){
+    public ResponseEntity<List<UserResponse>> findAllUsers(){
         return ResponseEntity
                 .ok(userService.findAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable UUID id){
+    public ResponseEntity<UserResponse> findUserById(@PathVariable UUID id){
         return ResponseEntity
                 .ok(userService.findUserById(id));
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest dto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.createUser(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUserById(@PathVariable UUID id,
-                                                          @Valid @RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponse> updateUserById(@PathVariable UUID id,
+                                                       @Valid @RequestBody CreateUserRequest dto){
         return ResponseEntity
                 .ok(userService.updateUserById(id, dto));
     }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserRequestDTO {
+public class CreateUserRequest {
 
     @NotBlank
     @Email
