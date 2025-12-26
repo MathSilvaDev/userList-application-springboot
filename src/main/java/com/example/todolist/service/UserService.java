@@ -1,5 +1,7 @@
 package com.example.todolist.service;
 
+import com.example.todolist.dto.request.UpdateUserNameRequest;
+import com.example.todolist.dto.request.UpdateUserPasswordRequest;
 import com.example.todolist.exception.EmailAlreadyExistsException;
 import com.example.todolist.exception.IdNotFoundException;
 import com.example.todolist.dto.request.CreateUserRequest;
@@ -61,13 +63,17 @@ public class UserService {
 
     //PUT
     @Transactional
-    public UserResponse updateUserById(UUID id, CreateUserRequest dto){
+    public UserResponse updateUserNameById(UUID id, UpdateUserNameRequest dto){
         User user = getUserById(id);
-
         user.setUserName(dto.getUserName());
-        if(dto.getPassword() != null && !dto.getPassword().isBlank()){
-            user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        }
+
+        return toResponseDTO(user);
+    }
+
+    @Transactional
+    public UserResponse updateUserPasswordById(UUID id, UpdateUserPasswordRequest dto){
+        User user = getUserById(id);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return toResponseDTO(user);
     }

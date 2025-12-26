@@ -1,7 +1,6 @@
 package com.example.todolist.dto.request;
 
 import com.example.todolist.validations.ValidationConstants;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,15 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreateUserRequest {
-
-    @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
-    @Size(max = ValidationConstants.USERNAME_MAX)
-    private String userName;
+public class UpdateUserPasswordRequest {
 
     @NotBlank
     @Size(

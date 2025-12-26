@@ -1,6 +1,8 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.dto.request.CreateUserRequest;
+import com.example.todolist.dto.request.UpdateUserNameRequest;
+import com.example.todolist.dto.request.UpdateUserPasswordRequest;
 import com.example.todolist.dto.response.UserResponse;
 import com.example.todolist.service.UserService;
 import jakarta.validation.Valid;
@@ -40,11 +42,18 @@ public class UserController {
                 .body(userService.createUser(dto));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUserById(@PathVariable UUID id,
-                                                       @Valid @RequestBody CreateUserRequest dto){
+    @PutMapping("/username/{id}")
+    public ResponseEntity<UserResponse> updateUserNameById(@PathVariable UUID id,
+                                                           @Valid @RequestBody UpdateUserNameRequest dto){
         return ResponseEntity
-                .ok(userService.updateUserById(id, dto));
+                .ok(userService.updateUserNameById(id, dto));
+    }
+
+    @PutMapping("/password/{id}")
+    public ResponseEntity<UserResponse> updateUserPasswordById(@PathVariable UUID id,
+                                                           @Valid @RequestBody UpdateUserPasswordRequest dto){
+        return ResponseEntity
+                .ok(userService.updateUserPasswordById(id, dto));
     }
 
     @DeleteMapping("/{id}")
