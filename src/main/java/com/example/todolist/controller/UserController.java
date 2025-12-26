@@ -42,14 +42,14 @@ public class UserController {
                 .body(userService.createUser(dto));
     }
 
-    @PutMapping("/username/{id}")
+    @PatchMapping("/{id}/username")
     public ResponseEntity<UserResponse> updateUserNameById(@PathVariable UUID id,
                                                            @Valid @RequestBody UpdateUserNameRequest dto){
         return ResponseEntity
                 .ok(userService.updateUserNameById(id, dto));
     }
 
-    @PutMapping("/password/{id}")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<UserResponse> updateUserPasswordById(@PathVariable UUID id,
                                                            @Valid @RequestBody UpdateUserPasswordRequest dto){
         return ResponseEntity
