@@ -28,16 +28,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(PasswordEncoder encoder){
-        return new InMemoryUserDetailsManager(
-                User.withUsername("user")
-                        .password(encoder.encode("123456"))
-                        .roles("USER")
-                        .build()
-        );
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
