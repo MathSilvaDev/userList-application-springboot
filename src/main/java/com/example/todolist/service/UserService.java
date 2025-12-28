@@ -90,7 +90,6 @@ public class UserService {
                 user.getId(),
                 user.getEmail(),
                 user.getUserName(),
-                user.getPassword(),
                 user.getCreatedAt()
         );
     }
