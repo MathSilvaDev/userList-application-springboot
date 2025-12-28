@@ -2,12 +2,15 @@ package com.example.todolist.service;
 
 import com.example.todolist.dto.request.UpdateUserNameRequest;
 import com.example.todolist.dto.request.UpdateUserPasswordRequest;
+import com.example.todolist.exception.AccessDeniedException;
 import com.example.todolist.exception.EmailAlreadyExistsException;
 import com.example.todolist.exception.IdNotFoundException;
 import com.example.todolist.dto.request.CreateUserRequest;
 import com.example.todolist.dto.response.UserResponse;
 import com.example.todolist.entities.User;
 import com.example.todolist.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,7 @@ public class UserService {
 
     //GET BY ID
     public UserResponse findUserById(UUID id){
+        validateAccess(id);
         User user = getUserById(id);
         return toResponseDTO(user);
     }
@@ -64,6 +68,7 @@ public class UserService {
     //PUT
     @Transactional
     public UserResponse updateUserNameById(UUID id, UpdateUserNameRequest dto){
+        validateAccess(id);
         User user = getUserById(id);
         user.setUserName(dto.getUserName());
 
@@ -72,6 +77,7 @@ public class UserService {
 
     @Transactional
     public UserResponse updateUserPasswordById(UUID id, UpdateUserPasswordRequest dto){
+        validateAccess(id);
         User user = getUserById(id);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
@@ -80,6 +86,7 @@ public class UserService {
 
     //DELETE
     public void deleteUserById(UUID id){
+        validateAccess(id);
         getUserById(id);
         userRepository.deleteById(id);
     }
@@ -98,5 +105,22 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(IdNotFoundException::new);
+    }
+
+    private User validateAccess(UUID id){
+        User authenticatedUser = getAuthenticatedUser();
+
+        if(!authenticatedUser.getId().equals(id)){
+            throw new AccessDeniedException();
+        }
+        return authenticatedUser;
+    }
+
+    private User getAuthenticatedUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(AccessDeniedException::new);
     }
 }
