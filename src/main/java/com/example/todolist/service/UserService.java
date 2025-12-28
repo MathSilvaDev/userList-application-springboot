@@ -32,7 +32,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    //GET ALL
+    //GET ALL ADM
     public List<UserResponse> findAllUsers(){
         return userRepository.findAll()
                 .stream()
@@ -40,11 +40,16 @@ public class UserService {
                 .toList();
     }
 
-    //GET BY ID
+    //GET BY ID ADM
     public UserResponse findUserById(UUID id){
-        validateAccess(id);
         User user = getUserById(id);
         return toResponseDTO(user);
+    }
+
+    //GET ME
+    public UserResponse findMeUser(){
+        User authenticatedUser = getAuthenticatedUser();
+        return toResponseDTO(authenticatedUser);
     }
 
     //POST
@@ -67,28 +72,25 @@ public class UserService {
 
     //PUT
     @Transactional
-    public UserResponse updateUserNameById(UUID id, UpdateUserNameRequest dto){
-        validateAccess(id);
-        User user = getUserById(id);
-        user.setUserName(dto.getUserName());
+    public UserResponse updateMeUserName(UpdateUserNameRequest dto){
+        User authenticatedUser = getAuthenticatedUser();
+        authenticatedUser.setUserName(dto.getUserName());
 
-        return toResponseDTO(user);
+        return toResponseDTO(authenticatedUser);
     }
 
     @Transactional
-    public UserResponse updateUserPasswordById(UUID id, UpdateUserPasswordRequest dto){
-        validateAccess(id);
-        User user = getUserById(id);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+    public UserResponse updateMeUserPassword(UpdateUserPasswordRequest dto){
+        User authenticatedUser = getAuthenticatedUser();
+        authenticatedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        return toResponseDTO(user);
+        return toResponseDTO(authenticatedUser);
     }
 
     //DELETE
-    public void deleteUserById(UUID id){
-        validateAccess(id);
-        getUserById(id);
-        userRepository.deleteById(id);
+    public void deleteMeUser(){
+        User authenticatedUser = getAuthenticatedUser();
+        userRepository.delete(authenticatedUser);
     }
 
     //METHODS
@@ -105,15 +107,6 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(IdNotFoundException::new);
-    }
-
-    private User validateAccess(UUID id){
-        User authenticatedUser = getAuthenticatedUser();
-
-        if(!authenticatedUser.getId().equals(id)){
-            throw new AccessDeniedException();
-        }
-        return authenticatedUser;
     }
 
     private User getAuthenticatedUser(){

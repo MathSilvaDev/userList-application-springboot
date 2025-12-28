@@ -35,6 +35,15 @@ public class UserController {
                 .ok(userService.findUserById(id));
     }
 
+    //----------
+    //Mapping Me
+    //----------
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> findMeUser(){
+        return ResponseEntity
+                .ok(userService.findMeUser());
+    }
+
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest dto){
         return ResponseEntity
@@ -42,23 +51,21 @@ public class UserController {
                 .body(userService.createUser(dto));
     }
 
-    @PatchMapping("/{id}/username")
-    public ResponseEntity<UserResponse> updateUserNameById(@PathVariable UUID id,
-                                                           @Valid @RequestBody UpdateUserNameRequest dto){
+    @PatchMapping("/me/username")
+    public ResponseEntity<UserResponse> updateMeUserName(@Valid @RequestBody UpdateUserNameRequest dto){
         return ResponseEntity
-                .ok(userService.updateUserNameById(id, dto));
+                .ok(userService.updateMeUserName(dto));
     }
 
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<UserResponse> updateUserPasswordById(@PathVariable UUID id,
-                                                               @Valid @RequestBody UpdateUserPasswordRequest dto){
+    @PatchMapping("/me/password")
+    public ResponseEntity<UserResponse> updateMeUserPassword(@Valid @RequestBody UpdateUserPasswordRequest dto){
         return ResponseEntity
-                .ok(userService.updateUserPasswordById(id, dto));
+                .ok(userService.updateMeUserPassword(dto));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable UUID id){
-        userService.deleteUserById(id);
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMeUser(){
+        userService.deleteMeUser();
 
         return ResponseEntity
                 .noContent()
