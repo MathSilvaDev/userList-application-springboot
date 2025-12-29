@@ -1,4 +1,4 @@
-package com.example.todolist.dto.response;
+package com.example.todolist.user.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

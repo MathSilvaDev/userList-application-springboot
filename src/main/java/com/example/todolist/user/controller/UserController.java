@@ -1,10 +1,10 @@
-package com.example.todolist.controller;
+package com.example.todolist.user.controller;
 
-import com.example.todolist.dto.request.CreateUserRequest;
-import com.example.todolist.dto.request.UpdateUserNameRequest;
-import com.example.todolist.dto.request.UpdateUserPasswordRequest;
-import com.example.todolist.dto.response.UserResponse;
-import com.example.todolist.service.UserService;
+import com.example.todolist.user.dto.request.CreateUserRequest;
+import com.example.todolist.user.dto.request.UpdateUserNameRequest;
+import com.example.todolist.user.dto.request.UpdateUserPasswordRequest;
+import com.example.todolist.user.dto.response.UserResponse;
+import com.example.todolist.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.example.todolist.service;
+package com.example.todolist.user.service;
 
-import com.example.todolist.entities.User;
-import com.example.todolist.repository.UserRepository;
+import com.example.todolist.user.entity.User;
+import com.example.todolist.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

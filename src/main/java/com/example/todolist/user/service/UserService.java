@@ -1,14 +1,15 @@
-package com.example.todolist.service;
+package com.example.todolist.user.service;
 
-import com.example.todolist.dto.request.UpdateUserNameRequest;
-import com.example.todolist.dto.request.UpdateUserPasswordRequest;
+import com.example.todolist.config.security.AuthUtil;
+import com.example.todolist.user.dto.request.UpdateUserNameRequest;
+import com.example.todolist.user.dto.request.UpdateUserPasswordRequest;
 import com.example.todolist.exception.AccessDeniedException;
 import com.example.todolist.exception.EmailAlreadyExistsException;
 import com.example.todolist.exception.IdNotFoundException;
-import com.example.todolist.dto.request.CreateUserRequest;
-import com.example.todolist.dto.response.UserResponse;
-import com.example.todolist.entities.User;
-import com.example.todolist.repository.UserRepository;
+import com.example.todolist.user.dto.request.CreateUserRequest;
+import com.example.todolist.user.dto.response.UserResponse;
+import com.example.todolist.user.entity.User;
+import com.example.todolist.user.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -109,9 +110,8 @@ public class UserService {
                 .orElseThrow(IdNotFoundException::new);
     }
 
-    private User getAuthenticatedUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+    public User getAuthenticatedUser(){
+        String email = AuthUtil.getAuthenticatedEmail();
 
         return userRepository.findUserByEmail(email)
                 .orElseThrow(AccessDeniedException::new);

@@ -1,5 +1,7 @@
-package com.example.todolist.entities;
+package com.example.todolist.user.entity;
 
+import com.example.todolist.todo.entity.Todo;
+import com.example.todolist.validations.ValidationConstants;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +27,7 @@ public class User {
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = ValidationConstants.USERNAME_MAX)
     private String userName;
 
     @Column(nullable = false)
@@ -32,6 +35,9 @@ public class User {
 
     @CreationTimestamp
     private Instant createdAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Todo> todos;
 
     public User(String email, String userName, String password){
         this.email = email;

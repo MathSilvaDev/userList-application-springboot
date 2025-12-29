@@ -7,4 +7,7 @@ public final class ValidationConstants {
     public static final int PASSWORD_MIN = 8;
     public static final int PASSWORD_MAX= 20;
 
+    public static final int TODOTITLE_MAX= 20;
+    public static final int TODODESCRIPTION_MAX = 150;
+
 }
