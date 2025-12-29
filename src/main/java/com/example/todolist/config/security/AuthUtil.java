@@ -10,6 +10,10 @@ public class AuthUtil {
                 .getContext()
                 .getAuthentication();
 
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())){
+            throw new IllegalArgumentException("No authenticated user");
+        }
+
         return auth.getName();
     }
 }

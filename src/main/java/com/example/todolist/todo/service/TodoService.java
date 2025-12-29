@@ -53,7 +53,11 @@ public class TodoService {
         User user = userService.getAuthenticatedUser();
         Todo todo = getTodoByIdAndUser(id, user);
 
-        todo.update(dto);
+        todo.update(
+                dto.getTitle(),
+                dto.getDescription(),
+                dto.isCompleted()
+        );
         return toResponse(todo);
     }
 

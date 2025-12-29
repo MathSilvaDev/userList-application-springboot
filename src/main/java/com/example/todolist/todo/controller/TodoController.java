@@ -4,6 +4,7 @@ import com.example.todolist.todo.dto.request.CreateTodoRequest;
 import com.example.todolist.todo.dto.request.UpdateTodoRequest;
 import com.example.todolist.todo.dto.response.TodoResponse;
 import com.example.todolist.todo.service.TodoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/todo/me")
+@RequestMapping("/todos/me")
 public class TodoController {
 
     private final TodoService todoService;
@@ -28,15 +29,15 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<TodoResponse> create(@RequestBody CreateTodoRequest dto){
+    public ResponseEntity<TodoResponse> create(@Valid @RequestBody CreateTodoRequest dto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(todoService.create(dto));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<TodoResponse> update(@PathVariable UUID id,
-                                               @RequestBody UpdateTodoRequest dto){
+                                               @Valid @RequestBody UpdateTodoRequest dto){
         return ResponseEntity
                 .ok(todoService.update(id, dto));
     }

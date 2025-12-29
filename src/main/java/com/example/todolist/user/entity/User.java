@@ -36,7 +36,7 @@ public class User {
     @CreationTimestamp
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Todo> todos;
 
     public User(String email, String userName, String password){

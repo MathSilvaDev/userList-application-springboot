@@ -33,10 +33,10 @@ public class Todo {
     private boolean completed;
 
     @CreationTimestamp
-    private Instant CreatedAt;
+    private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Todo(String title, String description, boolean completed, User user){
@@ -46,9 +46,9 @@ public class Todo {
         this.user = user;
     }
 
-    public void update(UpdateTodoRequest dto){
-        this.title = dto.getTitle();
-        this.description = dto.getDescription();
-        this.completed = dto.isCompleted();
+    public void update(String title, String description, boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
     }
 }

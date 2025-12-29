@@ -23,21 +23,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> findAllUsers(){
-        return ResponseEntity
-                .ok(userService.findAllUsers());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findUserById(@PathVariable UUID id){
-        return ResponseEntity
-                .ok(userService.findUserById(id));
-    }
-
-    //----------
-    //Mapping Me
-    //----------
     @GetMapping("/me")
     public ResponseEntity<UserResponse> findMeUser(){
         return ResponseEntity

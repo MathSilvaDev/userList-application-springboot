@@ -10,8 +10,6 @@ import com.example.todolist.user.dto.request.CreateUserRequest;
 import com.example.todolist.user.dto.response.UserResponse;
 import com.example.todolist.user.entity.User;
 import com.example.todolist.user.repository.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,20 +31,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    //GET ALL ADM
-    public List<UserResponse> findAllUsers(){
-        return userRepository.findAll()
-                .stream()
-                .map(this::toResponseDTO)
-                .toList();
-    }
-
-    //GET BY ID ADM
-    public UserResponse findUserById(UUID id){
-        User user = getUserById(id);
-        return toResponseDTO(user);
-    }
-
     //GET ME
     public UserResponse findMeUser(){
         User authenticatedUser = getAuthenticatedUser();
@@ -56,10 +40,9 @@ public class UserService {
     //POST
     public UserResponse createUser(CreateUserRequest dto){
 
-        Optional<User> userOpt = userRepository.findUserByEmail(dto.getEmail());
-        userOpt.ifPresent((_) -> {
+        if(userRepository.existsByEmail(dto.getEmail())){
             throw new EmailAlreadyExistsException();
-        });
+        }
 
         User user = new User(
                 dto.getEmail(),
