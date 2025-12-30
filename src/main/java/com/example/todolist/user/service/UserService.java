@@ -5,7 +5,6 @@ import com.example.todolist.user.dto.request.UpdateUserNameRequest;
 import com.example.todolist.user.dto.request.UpdateUserPasswordRequest;
 import com.example.todolist.exception.AccessDeniedException;
 import com.example.todolist.exception.EmailAlreadyExistsException;
-import com.example.todolist.exception.IdNotFoundException;
 import com.example.todolist.user.dto.request.CreateUserRequest;
 import com.example.todolist.user.dto.response.UserResponse;
 import com.example.todolist.user.entity.User;
@@ -13,10 +12,6 @@ import com.example.todolist.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -85,12 +80,6 @@ public class UserService {
                 user.getUserName(),
                 user.getCreatedAt()
         );
-    }
-
-    private User getUserById(UUID id){
-        return userRepository
-                .findById(id)
-                .orElseThrow(IdNotFoundException::new);
     }
 
     public User getAuthenticatedUser(){

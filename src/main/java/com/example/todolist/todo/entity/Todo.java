@@ -1,6 +1,5 @@
 package com.example.todolist.todo.entity;
 
-import com.example.todolist.todo.dto.request.UpdateTodoRequest;
 import com.example.todolist.user.entity.User;
 import com.example.todolist.validations.ValidationConstants;
 import jakarta.persistence.*;

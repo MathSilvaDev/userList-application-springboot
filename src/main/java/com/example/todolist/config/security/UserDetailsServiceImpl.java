@@ -1,4 +1,4 @@
-package com.example.todolist.user.service;
+package com.example.todolist.config.security;
 
 import com.example.todolist.user.entity.User;
 import com.example.todolist.user.repository.UserRepository;
