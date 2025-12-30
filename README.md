@@ -9,7 +9,7 @@ This is **NOT** a tutorial copy. Every decision was made consciously during stud
 ---
 
 ## Tech Stack
-- Java 17
+- Java
 - Spring Boot
 - Spring Security (HTTP Basic)
 - Spring Data JPA
